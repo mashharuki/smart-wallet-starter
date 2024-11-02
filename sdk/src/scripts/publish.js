@@ -1,9 +1,11 @@
+// eslint-disable-next-line
 const fs = require('fs');
+// eslint-disable-next-line
 const path = require('path');
+// eslint-disable-next-line
 const { execSync } = require('child_process');
 
-const updatePackageJson = (packageJson, newVersion) => {
-    packageJson.version = newVersion;
+const updatePackageJson = (packageJson) => {
     fs.writeFileSync(
         path.join(__dirname, '..', '..', 'package.json'),
         `${JSON.stringify(packageJson, null, 2)}\n`,
@@ -39,11 +41,18 @@ const main = async () => {
 
     const newVersion = versionParts.join('.');
     packageJson.version = newVersion;
+    packageJson.main = 'dist/index.js';
+    packageJson.types = 'dist/index.d.ts';
 
     updatePackageJson(packageJson, newVersion);
 
     console.log(`Publishing ${newVersion}...`);
     execSync(`npm publish --access=public`);
+
+    packageJson.main = 'src/index.ts';
+    packageJson.types = 'src/index.ts';
+
+    updatePackageJson(packageJson, newVersion);
 };
 
 main();
