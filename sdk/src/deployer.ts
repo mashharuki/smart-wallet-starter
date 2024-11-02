@@ -1,11 +1,12 @@
-import axios, { AxiosInstance } from 'axios';
+import type { AxiosInstance } from 'axios';
+import axios from 'axios';
 import { abiFactory } from './abi';
 import { SmartContract } from './contract';
 import { parseHex } from './string';
 import { BigNumber, ethers } from 'ethers';
 import { defaultAbiCoder } from 'ethers/lib/utils';
-import { Contract } from 'zksync-ethers';
-import { InitOptions } from './types';
+import type { Contract } from 'zksync-ethers';
+import type { InitOptions } from './types';
 import { Buffer } from 'buffer';
 
 type DeployerOptions = {

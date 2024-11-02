@@ -1,8 +1,3 @@
-/**
- * Copyright Clave - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- */
 module.exports = {
     parser: '@typescript-eslint/parser',
     plugins: ['@typescript-eslint/eslint-plugin'],
@@ -23,9 +18,7 @@ module.exports = {
     ignorePatterns: ['.eslintrc.js', 'dist'],
     rules: {
         '@typescript-eslint/array-type': ['error', { default: 'generic' }],
-        '@typescript-eslint/explicit-module-boundary-types': 'warn',
         '@typescript-eslint/no-explicit-any': 'error',
-        '@typescript-eslint/explicit-function-return-type': 'warn',
         '@typescript-eslint/ban-ts-comment': [
             'warn',
             {

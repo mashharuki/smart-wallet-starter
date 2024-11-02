@@ -9,3 +9,4 @@ export * from './webauthn';
 export * from './deployer';
 export * from './provider';
 export * from './multicall';
+export * from './sdk';

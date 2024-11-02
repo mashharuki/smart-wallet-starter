@@ -1,7 +1,7 @@
 import { abiErc20, abiMulticall } from './abi';
 import { BigNumber, Contract, ethers } from 'ethers';
 import { getChainProvider } from './provider';
-import { InitOptions } from './types';
+import { type InitOptions } from './types';
 
 type MulticallParams = {
     /* Target (to) addresses of each read call */

@@ -1,7 +1,9 @@
-import { IPasskeySigner, parseHex, TransactionProps, Webauthn } from '.';
-import { providers } from 'ethers';
+import type { IPasskeySigner, TransactionProps } from '.';
+import { parseHex, Webauthn } from '.';
+import type { providers } from 'ethers';
 import { defaultAbiCoder } from 'ethers/lib/utils';
-import { EIP712Signer, Provider, types, utils } from 'zksync-ethers';
+import type { Provider, types } from 'zksync-ethers';
+import { EIP712Signer, utils } from 'zksync-ethers';
 
 export class Transaction {
     transaction: types.TransactionRequest;

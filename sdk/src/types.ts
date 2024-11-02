@@ -1,7 +1,7 @@
-import { IPasskeySigner } from './signer';
-import { JsonFragmentType } from '@ethersproject/abi';
-import { BigNumber } from 'ethers';
-import { Provider, types } from 'zksync-ethers';
+import type { IPasskeySigner } from './signer';
+import type { JsonFragmentType } from '@ethersproject/abi';
+import type { BigNumber } from 'ethers';
+import type { Provider, types } from 'zksync-ethers';
 
 export type Base64 = string;
 export type Base64Url = string;

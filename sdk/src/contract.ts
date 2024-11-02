@@ -1,7 +1,8 @@
 import { getChainProvider } from './provider';
-import { ContractInterface } from 'ethers';
-import { Provider, Wallet, Contract } from 'zksync-ethers';
-import { InitOptions } from './types';
+import type { ContractInterface } from 'ethers';
+import type { Provider, Wallet } from 'zksync-ethers';
+import { Contract } from 'zksync-ethers';
+import type { InitOptions } from './types';
 
 type ContractName =
     | 'batchCaller'

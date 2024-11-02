@@ -12,7 +12,7 @@ import type {
 } from '@passwordless-id/webauthn/dist/esm/types';
 import { BigNumber, ethers } from 'ethers';
 import { formatHex, parseHex } from './string';
-import { WebauthnAuthenticationResponse } from './types';
+import type { WebauthnAuthenticationResponse } from './types';
 
 export class Webauthn {
     private static n = BigNumber.from(

@@ -1,4 +1,5 @@
-import { BigNumber, ethers } from 'ethers';
+import type { BigNumber } from 'ethers';
+import { ethers } from 'ethers';
 
 export const parseHex = (hex: string) => {
     return hex.startsWith('0x') ? hex.slice(2) : hex;

@@ -1,17 +1,19 @@
-import {
-    SmartContract,
+import type {
     IPasskeySigner,
-    Transaction,
-    Signer,
     GetCalldataProps,
     GetTransactionProps,
+    InitOptions,
+} from '.';
+import {
+    SmartContract,
+    Transaction,
+    Signer,
     abiBatchCaller,
     parseHex,
-    InitOptions,
     getChainProvider,
 } from '.';
 import { BigNumber, constants, ethers } from 'ethers';
-import { Provider, types } from 'zksync-ethers';
+import type { Provider, types } from 'zksync-ethers';
 import { DEFAULT_GAS_PER_PUBDATA_LIMIT } from 'zksync-ethers/build/src/utils';
 import { defaultAbiCoder } from 'ethers/lib/utils';
 

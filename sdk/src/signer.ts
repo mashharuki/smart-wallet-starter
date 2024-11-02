@@ -1,5 +1,5 @@
 import { Webauthn } from './webauthn';
-import { BigNumber } from 'ethers';
+import type { BigNumber } from 'ethers';
 import { defaultAbiCoder } from 'ethers/lib/utils';
 
 export interface IPasskeySigner {

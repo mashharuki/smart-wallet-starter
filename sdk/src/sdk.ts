@@ -1,5 +1,5 @@
 import { Core, Deployer, Multicall, Webauthn } from '.';
-import { InitOptions } from './types';
+import type { InitOptions } from './types';
 
 type SmartWalletSDKOptions = {
     apiUrl?: string;
