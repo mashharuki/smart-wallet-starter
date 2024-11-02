@@ -1,0 +1,4 @@
+node_modules
+.turbo
+.env
+src/__tests__
