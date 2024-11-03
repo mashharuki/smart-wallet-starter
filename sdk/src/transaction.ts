@@ -6,6 +6,8 @@ import type { Provider, types } from 'zksync-ethers';
 import { EIP712Signer, utils } from 'zksync-ethers';
 
 export class Transaction {
+    private webauthn: Webauthn;
+
     transaction: types.TransactionRequest;
     provider: Provider;
     signer: IPasskeySigner;
@@ -24,6 +26,7 @@ export class Transaction {
         this.signer = signer;
         this.validatorAddress = validatorAddress;
         this.gaslessPaymasterAddress = gaslessPaymasterAddress;
+        this.webauthn = new Webauthn();
     }
 
     /**
@@ -33,7 +36,7 @@ export class Transaction {
         const signedTxHash = EIP712Signer.getSignedDigest(this.transaction);
         const message = parseHex(signedTxHash.toString());
         const signature = await this.signer.sign(
-            Webauthn.hexToBase64Url(message),
+            this.webauthn.hexToBase64Url(message),
         );
         return defaultAbiCoder.encode(
             ['bytes', 'address', 'bytes[]'],

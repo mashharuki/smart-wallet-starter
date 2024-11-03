@@ -1,7 +1,7 @@
 {
   "name": "@asgarovf/smart-wallet-sdk",
   "description": "Smart Wallet SDK for ZKsync",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "dependencies": {
     "@passwordless-id/webauthn": "1.5.0",
     "@types/jest": "29.5.3",

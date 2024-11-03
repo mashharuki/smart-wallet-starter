@@ -9,28 +9,30 @@ export interface IPasskeySigner {
 
 export class Signer implements IPasskeySigner {
     public readonly credentialId: string;
-
-    private readonly expectedClientDataPrefix = Webauthn.bufferFromString(
-        '{"type":"webauthn.get","challenge":"',
-    );
+    private webauthn: Webauthn;
+    private expectedClientDataPrefix: Buffer;
 
     constructor(credentialId: string) {
+        this.webauthn = new Webauthn();
         this.credentialId = credentialId;
+        this.expectedClientDataPrefix = this.webauthn.bufferFromString(
+            '{"type":"webauthn.get","challenge":"',
+        );
     }
 
     public async sign(data: string): Promise<string> {
-        const { response } = await Webauthn.authenticate(
+        const { response } = await this.webauthn.authenticate(
             [this.credentialId],
             data,
         );
 
-        const authenticatorDataBuffer = Webauthn.bufferFromBase64url(
+        const authenticatorDataBuffer = this.webauthn.bufferFromBase64url(
             response.authenticatorData,
         );
-        const clientDataBuffer = Webauthn.bufferFromBase64url(
+        const clientDataBuffer = this.webauthn.bufferFromBase64url(
             response.clientDataJSON,
         );
-        const rs = Webauthn.getRS(response.signature);
+        const rs = this.webauthn.getRS(response.signature);
 
         return this.encodeSigature(
             authenticatorDataBuffer,
