@@ -1,8 +1,5 @@
 import { SEPOLIA_RPC_URL } from '@asgarovf/smart-wallet-sdk/dist/provider';
-import {
-    defaultContracts,
-    SmartContract,
-} from '@asgarovf/smart-wallet-sdk/dist/contract';
+import { SmartContract } from '@asgarovf/smart-wallet-sdk/dist/contract';
 import { abiFactory } from '@asgarovf/smart-wallet-sdk/dist/abi';
 import { ethers } from 'ethers';
 import { Provider, types, Wallet } from 'zksync-ethers';
@@ -52,7 +49,7 @@ export async function POST(request: Request) {
 
     const contracts = SmartContract.create({
         chainId: 300,
-        contracts: defaultContracts,
+        contracts: {},
     });
     const factoryContract = contracts.getContractWithEOASigner(
         'accountFactory',
