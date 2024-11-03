@@ -15,12 +15,12 @@ import { formatHex, parseHex } from './string';
 import type { WebauthnAuthenticationResponse } from './types';
 
 export class Webauthn {
-    private static n = BigNumber.from(
+    private n = BigNumber.from(
         '0xFFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC632551',
     );
-    private static halfN = this.n.div(2);
+    private halfN = this.n.div(2);
 
-    private static sanitizeAuthenticationResponse(
+    private sanitizeAuthenticationResponse(
         response: AuthenticationEncoded,
     ): WebauthnAuthenticationResponse {
         return {
@@ -40,7 +40,7 @@ export class Webauthn {
         };
     }
 
-    public static async register(publicAddress: string) {
+    public async register(publicAddress: string) {
         const registration = await client.register(
             this.getRandomUsername(),
             this.getRandomChallenge(),
@@ -50,7 +50,7 @@ export class Webauthn {
         return this.sanitizeRegistrationResponse(registration);
     }
 
-    public static async authenticate(
+    public async authenticate(
         credentialId: Array<string>,
         challenge: string,
     ): Promise<WebauthnAuthenticationResponse> {
@@ -63,7 +63,7 @@ export class Webauthn {
         return this.sanitizeAuthenticationResponse(response);
     }
 
-    public static async login() {
+    public async login() {
         const response = await client.authenticate(
             [],
             this.getRandomChallenge(),
@@ -72,7 +72,7 @@ export class Webauthn {
         return this.sanitizeAuthenticationResponse(response);
     }
 
-    public static getRandomUsername(): string {
+    public getRandomUsername(): string {
         const date = new Date();
         const day = date.getDate();
         const month = date.getMonth();
@@ -86,13 +86,13 @@ export class Webauthn {
         )}`;
     }
 
-    public static fromBase64Url(str: string): string {
+    public fromBase64Url(str: string): string {
         return Buffer.from(this.base64ToBase64Url(str), 'base64').toString(
             'utf-8',
         );
     }
 
-    public static getRandomChallenge(): string {
+    public getRandomChallenge(): string {
         const randomString = ethers.utils.randomBytes(20);
 
         return this.base64ToBase64Url(
@@ -100,7 +100,7 @@ export class Webauthn {
         );
     }
 
-    public static getPublicKeyFromAuthenticatorData(authData: string): string {
+    public getPublicKeyFromAuthenticatorData(authData: string): string {
         const authDataBuffer = Buffer.from(this.toBase64(authData), 'base64');
         const credentialData = authDataBuffer.subarray(
             32 + 1 + 4 + 16,
@@ -114,7 +114,7 @@ export class Webauthn {
         return this.getPublicKeyFromCredentialPublicKey(credentialPubKey);
     }
 
-    private static getPublicKeyFromCredentialPublicKey(
+    private getPublicKeyFromCredentialPublicKey(
         credentialPublicKey: Uint8Array,
     ): string {
         const publicKey: Map<-2 | -3 | -1 | 1 | 3, Buffer | number> =
@@ -126,11 +126,11 @@ export class Webauthn {
         return x.concat(parseHex(y));
     }
 
-    public static base64ToBase64Url(base64: string): string {
+    public base64ToBase64Url(base64: string): string {
         return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
     }
 
-    public static sanitizeRegistrationResponse(response: RegistrationEncoded) {
+    public sanitizeRegistrationResponse(response: RegistrationEncoded) {
         return {
             id: this.base64ToBase64Url(response.credential.id),
             rawId: this.base64ToBase64Url(response.credential.id),
@@ -141,11 +141,11 @@ export class Webauthn {
         };
     }
 
-    public static padDateComponent(component: number): string {
+    public padDateComponent(component: number): string {
         return component.toString().padStart(2, '0');
     }
 
-    public static getWebauthnRegisterOptions(userHandle?: string): {
+    public getWebauthnRegisterOptions(userHandle?: string): {
         registerOptions: RegisterOptions;
         authOptions: AuthenticateOptions;
         algorithm: string;
@@ -169,15 +169,15 @@ export class Webauthn {
         };
     }
 
-    public static bufferToHex(buffer: ArrayBufferLike): string {
+    public bufferToHex(buffer: ArrayBufferLike): string {
         return formatHex(Buffer.from(buffer).toString('hex'));
     }
 
-    public static toBase64(input: string | Buffer): string {
+    public toBase64(input: string | Buffer): string {
         input = input.toString();
         return this.padString(input).replace(/\-/g, '+').replace(/_/g, '/');
     }
-    public static padString(input: string): string {
+    public padString(input: string): string {
         const segmentLength = 4;
         const stringLength = input.length;
         const diff = stringLength % segmentLength;
@@ -200,7 +200,7 @@ export class Webauthn {
         return buffer.toString();
     }
 
-    public static derToRS(der: Buffer): Array<Buffer> {
+    public derToRS(der: Buffer): Array<Buffer> {
         let offset = 3;
         let dataOffset: number;
 
@@ -220,15 +220,21 @@ export class Webauthn {
         return [r, s];
     }
 
-    public static bufferFromString(string: string): Buffer {
+    public bufferFromString(string: string): Buffer {
         return Buffer.from(string, 'utf8');
     }
 
-    public static bufferFromBase64url(base64url: string): Buffer {
+    public bufferFromBase64url(base64url: string): Buffer {
         return Buffer.from(this.toBase64(base64url), 'base64');
     }
 
-    public static getRS(signatureBase64Url: string): Array<BigNumber> {
+    public hexToBase64Url(hex: string): string {
+        return this.base64ToBase64Url(
+            Buffer.from(hex, 'hex').toString('base64'),
+        );
+    }
+
+    public getRS(signatureBase64Url: string): Array<BigNumber> {
         const signatureBuffer = this.bufferFromBase64url(signatureBase64Url);
         const signatureParsed = this.derToRS(signatureBuffer);
 
@@ -242,11 +248,5 @@ export class Webauthn {
         }
 
         return sig;
-    }
-
-    static hexToBase64Url(hex: string): string {
-        return this.base64ToBase64Url(
-            Buffer.from(hex, 'hex').toString('base64'),
-        );
     }
 }

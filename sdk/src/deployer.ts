@@ -56,9 +56,10 @@ export class Deployer {
 
     public async deploy(salt: string, publicKey: string) {
         const deployParams = this.getDeploymentParams(salt, publicKey);
-        const { data } = await this.axiosInstance.post('/api/deploy', {
+        const { data } = await this.axiosInstance.post(
+            '/api/deploy',
             deployParams,
-        });
+        );
         return data;
     }
 
