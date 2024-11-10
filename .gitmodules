@@ -1,0 +1,3 @@
+[submodule "clave-contracts"]
+	path = clave-contracts
+	url = https://github.com/getclave/clave-contracts.git

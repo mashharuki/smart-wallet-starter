@@ -1,8 +1,6 @@
-import { SEPOLIA_RPC_URL } from '@asgarovf/smart-wallet-sdk/dist/provider';
-import { SmartContract } from '@asgarovf/smart-wallet-sdk/dist/contract';
-import { abiFactory } from '@asgarovf/smart-wallet-sdk/dist/abi';
-import { ethers } from 'ethers';
+import { Contract, ethers } from 'ethers';
 import { Provider, types, Wallet } from 'zksync-ethers';
+import { CONFIG } from '@/utils/config';
 
 const DEPLOYER_PRIVATE_KEY = process.env.DEPLOYER_PRIVATE_KEY!;
 
@@ -26,9 +24,12 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { salt, initializer } = body;
 
+    const SEPOLIA_RPC_URL = 'https://sepolia.era.zksync.dev';
+    const MAINNET_RPC_URL = 'https://mainnet.era.zksync.io';
+
     const provider = new ethers.providers.JsonRpcProvider({
         skipFetchSetup: true,
-        url: SEPOLIA_RPC_URL,
+        url: CONFIG.chainId === 324 ? MAINNET_RPC_URL : SEPOLIA_RPC_URL,
     });
 
     if (!DEPLOYER_PRIVATE_KEY) {
@@ -47,13 +48,11 @@ export async function POST(request: Request) {
         provider as Provider,
     );
 
-    const contracts = SmartContract.create({
-        chainId: 300,
-        contracts: {},
-    });
-    const factoryContract = contracts.getContractWithEOASigner(
-        'accountFactory',
-        abiFactory,
+    const factoryAddress = '0x48d25e2a7895390d0FE4f406D29Fdb8E705c4e03';
+
+    const factoryContract = new Contract(
+        factoryAddress,
+        ['function deployAccount(uint256 salt, bytes initializer) public'],
         deployerWallet,
     );
 

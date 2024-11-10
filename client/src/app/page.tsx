@@ -5,6 +5,7 @@ import { AuthView, WalletView } from '@/views';
 
 export default function Home() {
     const credential = useCredential();
+
     return (
         <Layout>{credential == null ? <AuthView /> : <WalletView />}</Layout>
     );
