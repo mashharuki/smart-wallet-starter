@@ -14,30 +14,7 @@ export const SendView = () => {
     const [selectedToken, setSelectedToken] = useState<Token>(tokens[0]);
 
     const transfer = async () => {
-        // if (selectedToken.type === 'ERC20') {
-        //     const calldata = core.getCalldata({
-        //         abi: abiErc20,
-        //         method: 'transfer',
-        //         args: [
-        //             receiver,
-        //             ethers.utils.parseUnits(value, selectedToken.decimals),
-        //         ],
-        //     });
-        //     const tx = await core.getTransaction({
-        //         to: selectedToken.address,
-        //         data: calldata,
-        //     });
-        //     await tx.signAndSend();
-        // } else {
-        //     const tx = await core.getTransaction({
-        //         to: receiver,
-        //         value: ethers.utils.parseEther(value),
-        //     });
-        //     await tx.signAndSend();
-        // }
-        // await queryClient.invalidateQueries({
-        //     queryKey: [Queries.BALANCES, credential.publicAddress],
-        // });
+        // TODO: Implement the transfer logic
     };
 
     const transferMutation = useMutation({

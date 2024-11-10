@@ -12,32 +12,8 @@ type BoxProps = {
     isPending?: boolean;
 };
 export const AuthView = () => {
-    // const setCredential = useSetCredential();
-
-    // const connectSigner = (credential: Credential) => {
-    //     core.connect(credential);
-    // };
-
     const deployAccount = async () => {
-        // const deployer = Deployer.create();
-        // const salt = deployer.getSalt();
-        // const publicAddress = await deployer.getAddressForSalt(salt);
-        // const passkey = await Webauthn.register(publicAddress);
-        // const credential = {
-        //     publicAddress,
-        //     credentialId: passkey.id,
-        // };
-        // const publicKey = Webauthn.getPublicKeyFromAuthenticatorData(
-        //     passkey.authenticatorData,
-        // );
-        // const deployReceipt = await deployer.deploy(salt, publicKey);
-        // if (deployReceipt.status === 1) {
-        //     connectSigner(credential);
-        //     Storage.setJsonItem(StorageKeys.credential, credential);
-        //     setCredential(credential);
-        // } else {
-        //     throw new Error('Failed to deploy the account');
-        // }
+        // TODO: Implement the deploy account logic
     };
 
     const deployMutation = useMutation({
@@ -45,14 +21,7 @@ export const AuthView = () => {
     });
 
     const loginAccount = async () => {
-        // const passkey = await Webauthn.login();
-        // const credential = {
-        //     publicAddress: passkey.response.userHandle,
-        //     credentialId: passkey.id,
-        // };
-        // connectSigner(credential);
-        // Storage.setJsonItem(StorageKeys.credential, credential);
-        // setCredential(credential);
+        // TODO: Implement the login account logic
     };
 
     const loginMutation = useMutation({
