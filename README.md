@@ -2,6 +2,8 @@
 
 This is a starter kit for the workshop we are organizing in DevCon SEA Bangkok.
 
+https://app.devcon.org/schedule/WC7LEV
+
 <img src="docs/devcon-sea.png" style="width:50%">
 
 # Setting Up Client Repository
@@ -11,6 +13,14 @@ This is a starter kit for the workshop we are organizing in DevCon SEA Bangkok.
 - Node.js 18.18 or later. You can check your node version by running node --version
 - macOS, Windows (including WSL), and Linux are supported.
 - zksync-cli, can be insalled as `npm install -g zksync-cli`
+
+### Submodules
+
+After cloning the repository, you should initialize the submodules to deploy the contracts. You can use the following command:
+
+```
+git submodule update --init --recursive
+```
 
 ### Installing Packages
 

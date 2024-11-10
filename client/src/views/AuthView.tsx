@@ -72,7 +72,7 @@ export const AuthView = () => {
                         }}
                         icon={<FaUserPlus className="mr-2" size={32} />}
                         title="Create Smart Wallet"
-                        text=" Start deploying your Smart Wallet on ZKsync, using Clave infrastructure"
+                        text=" Start deploying your Smart Wallet on ZKsync"
                         isPending={deployMutation.isPending}
                     />
 
