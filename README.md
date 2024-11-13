@@ -49,6 +49,62 @@ You can start the client development server by running the command below. It wil
 npm run dev
 ```
 
+## Initializing SDK
+
+```ts
+import { SmartWalletSDK } from "@asgarovf/smart-wallet-sdk";
+
+const contracts: Record<string, string> = {
+  batchCaller: "YOUR_BATCH_CALLER_ADDRESS",
+  implementation: "YOUR_IMPLEMENTATION_ADDRESS",
+  registry: "YOUR_REGISTRY_ADDRESS",
+  gaslessPaymaster: "YOUR_GASLESS_PAYMASTER_ADDRESS",
+  claveProxy: "YOUR_PROXY_ADDRESS",
+  passkeyValidator: "YOUR_PASSKEY_VALIDATOR_ADDRESS",
+  accountFactory: "YOUR_ACCOUNT_FACTORY_ADDRESS",
+};
+
+export const sdk = new SmartWalletSDK({
+  chainId: 300,
+  contracts,
+  apiUrl: "YOUR_DEPLOYER_API_BASE_URL", // Optional
+});
+```
+
+## SDK Components
+
+- sdk.core: to prepare transaction calldata
+- sdk.deployer: to deploy your smart account
+- sdk.multicall: to make multi-read opeartions
+- sdk.webauthn: utils for passkeys
+
+## Creating a Passkey - Registering
+
+```ts
+// Prepare unique salt
+const salt = sdk.deployer.getSalt();
+
+// Calculate the smart account address
+const publicAddress = await sdk.deployer.getAddressForSalt(salt);
+
+// Create passkey
+const passkey = await sdk.webauthn.register(publicAddress);
+
+// Extract p256 public key from the passkey
+const publicKey = sdk.webauthn.getPublicKeyFromAuthenticatorData(
+  passkey.authenticatorData
+);
+
+// Make deployment call: If status == 1, deployment is successful
+const { status } = await sdk.deployer.deploy(salt, publicKey);
+```
+
+## Using existing Passkey - Login
+
+```ts
+const passkey = await sdk.webauthn.login();
+```
+
 ## Sending Transactions
 
 In this section, I will explain the logic of sending transaction. The only thing you should now about preparing transactions is that you should use Core util, located at `src/utils/core.ts`. The singleton class instance is exported, so that you can use the same core object everywhere.
@@ -60,10 +116,8 @@ In this section, I will explain the logic of sending transaction. The only thing
 Here is the example of getting a transaction instance, also sending it to network:
 
 ```ts
-import { core } from "@/utils";
-
 // Prepare transaction
-const tx = await core.getTransaction({
+const tx = await sdk.core.getTransaction({
   to: "0xc1ECfC78959484df5472b20Cb7D43dC8c57C767A",
   value: ethers.utils.parseEther("0.001"),
 });
@@ -77,22 +131,20 @@ The code above gets a transaction for sending 0.001 ETH to address `0xc1ECfC7895
 If you want to call a smart contract method, you need one additional step of preparing calldata of your transaction. This is possible with the following code block.
 
 ```ts
-import { abiErc20, core } from "@/utils";
-
 const USDC_ADDRESS = "0x235171e45abff2a15d117e3179df4cc35ebfae2f";
 const USDC_DECIMALS = 6;
 const RECEIVER = "0xc1ECfC78959484df5472b20Cb7D43dC8c57C767A";
 const AMOUNT = "1";
 
 // Prepare calldata
-const calldata = core.getCalldata({
+const calldata = sdk.core.getCalldata({
   abi: ERC20_ABI,
   method: "transfer",
   args: [RECEIVER, ethers.utils.parseUnits(AMOUNT, USDC_DECIMALS)],
 });
 
 // Prepare transaction
-const tx = await core.getTransaction({
+const tx = await sdk.core.getTransaction({
   to: selectedToken.address,
   data: calldata,
 });
@@ -114,7 +166,7 @@ const RECEIVER_2 = "0x94E9b636d0f3BDc08019B450F7f2F4Ef5b4eb2Ca";
 const AMOUNT = "0.001";
 
 // Prepare transaction
-const tx = await core.getBatchTransaction(
+const tx = await sdk.core.getBatchTransaction(
   {
     to: RECEIVER_1,
     value: ethers.utils.parseEther(AMOUNT),
