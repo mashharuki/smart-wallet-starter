@@ -6,15 +6,32 @@ import { mergeClasses } from '@/utils/global';
 import { useMutation } from '@tanstack/react-query';
 import { ethers } from 'ethers';
 import { useMemo, useState } from 'react';
+import { sdk } from './AuthView';
 
+/**
+ * SendView Component
+ * @returns 
+ */
 export const SendView = () => {
     const setPage = useSetPage();
     const [value, setValue] = useState('');
     const [receiver, setReceiver] = useState('');
     const [selectedToken, setSelectedToken] = useState<Token>(tokens[0]);
 
+    /**
+     * トークンを送金するメソッド
+     */
     const transfer = async () => {
-        // TODO: Implement the transfer logic
+        if(sdk) {
+            // Prepare transaction
+            const tx = await sdk.core.getTransaction({
+                to: "0xc1ECfC78959484df5472b20Cb7D43dC8c57C767A",
+                value: ethers.utils.parseEther("0.001"),
+            });
+            
+            // Send transaction to ZKsync network
+            await tx.signAndSend();
+        }
     };
 
     const transferMutation = useMutation({

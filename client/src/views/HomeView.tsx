@@ -5,6 +5,10 @@ import { useBalances, useIsBalancesSet } from '@/store';
 import { formatUnits } from 'ethers/lib/utils';
 import Image from 'next/image';
 
+/**
+ * HomeView Component
+ * @returns 
+ */
 export const HomeView = () => {
     const balances = useBalances();
     const isBalancesSet = useIsBalancesSet();

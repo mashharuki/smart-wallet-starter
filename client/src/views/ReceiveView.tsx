@@ -1,13 +1,20 @@
-import { QRCode } from 'react-qrcode-logo';
 import Favicon from '@/app/favicon.png';
 import { useCredentialNullSafe } from '@/store';
 import { useState } from 'react';
+import { QRCode } from 'react-qrcode-logo';
 
+/**
+ * ReceiveView Component
+ * @returns 
+ */
 export const ReceiveView = () => {
     const credential = useCredentialNullSafe();
 
     const [addressCopied, setAddressCopied] = useState(false);
 
+    /**
+     * アドレスをコピーするメソッド
+     */
     const copyAddress = () => {
         navigator.clipboard.writeText(credential.publicAddress);
         setAddressCopied(true);

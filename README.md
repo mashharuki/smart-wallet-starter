@@ -26,7 +26,7 @@ git submodule update --init --recursive
 
 ```
 cd client
-npm install
+yarn
 ```
 
 ### Setting Deployer Wallet
@@ -46,7 +46,7 @@ DEPLOYER_PRIVATE_KEY=****** // Replace stars with your actual private key
 You can start the client development server by running the command below. It will start the development server on `https://localhost:3000`
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 ## Initializing SDK
@@ -69,6 +69,25 @@ export const sdk = new SmartWalletSDK({
   contracts,
   apiUrl: "YOUR_DEPLOYER_API_BASE_URL", // Optional
 });
+```
+
+## SDK の初期化に必要なものをデプロイする方法
+
+```bash
+cd clave-contracts && npm install
+```
+
+コンパイル
+
+```bash
+npm run compile
+```
+
+一式デプロイ
+(デフォルトでは zksync のテストネットが向き先として指定される。)
+
+```bash
+npm run deploy:mvp
 ```
 
 ## SDK Components
@@ -182,3 +201,25 @@ await tx.signAndSend();
 ```
 
 The code above gets a batch transaction for sending `0.001 ETH` to `RECEIVER_1` and `RECEIVER_2` addresses. You only sign once and send multiple transactions at the same time. By also setting `data` parameter of your transaction, you can call multiple methods from multiple smart contracts to make the user experience of your wallet better and better.
+
+## 動かした記録
+
+ヘルスチェック
+
+```bash
+curl -XGET "http://localhost:3000/api/deploy"
+```
+
+以下のように返ってくれば OK!
+
+```json
+{
+  "status": "ok"
+}
+```
+
+### 参考文献
+
+1. [GitHub - clave-contracts](https://github.com/getclave/clave-contracts)
+2. [Building a Smart Passkey Wallet from scratch with ZKsync Native AA](https://mirror.xyz/asgarovf.eth/s_Tftx4GV4ExkIZ22ENivFOJlgp7hAqjfS4t7enE8zg)
+3. [GitHub - zksync-smart-wallet](https://github.com/getclave/zksync-smart-wallet/tree/master)
