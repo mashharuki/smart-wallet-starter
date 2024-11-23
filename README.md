@@ -74,20 +74,34 @@ export const sdk = new SmartWalletSDK({
 ## SDK の初期化に必要なものをデプロイする方法
 
 ```bash
-cd clave-contracts && npm install
+cd clave-contracts && yarn
 ```
 
 コンパイル
 
 ```bash
-npm run compile
+yarn compile
 ```
 
 一式デプロイ
 (デフォルトでは zksync のテストネットが向き先として指定される。)
 
 ```bash
-npm run deploy:mvp
+yarn deploy:mvp
+```
+
+デプロイ結果
+
+```json
+{
+  "batchCaller": "0x2Df65b433Cde5ddf121e86327f63CF81926afe5c",
+  "implementation": "0x8B2d3Fb7a4557765a56b0b1b658419F70CF3F974",
+  "registry": "0xc5FF3D69f65275577F3dd7622C132d1FA5C23E8d",
+  "gaslessPaymaster": "0x620524C8B2A2c24FEaD175F07377a66d9DC8EccA",
+  "claveProxy": "0x076ecaFAfa75b9f963F93277f0Ca5d6469a4CfD9",
+  "passkeyValidator": "0xcfa2A796140668e9878e708B5E050A335DC474F7",
+  "accountFactory": "0x59cA0733496E8f56d83850b91fe50790DE6a003B"
+}
 ```
 
 ## SDK Components
